@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 3.24)
-project(cuda_toolkit LANGUAGES CXX CUDA VERSION 0.1.0)
+project(cuda_toolkit LANGUAGES CUDA VERSION 1.0.0)
 
 set(CMAKE_CUDA_STANDARD 23)
 
-add_library(cuda_toolkit src/library.cu)
+add_library(cuda_toolkit src/error.cu src/memory.cu src/gpu_facade.cu)
 
 target_include_directories(cuda_toolkit PUBLIC include/)
 # A CMake pattern to have headers that are not seen by the consumers of this library.
 # So headers which not have to be visible for consumers should be placed in src/
-target_include_directories(cuda_toolkit PRIVATE src ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(cuda_toolkit PRIVATE src)
 
 # We need to explicitly state that we need all CUDA files in the
 # this library to be built with as the member functions
