@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.25.1)
 project(cuda_toolkit LANGUAGES CUDA VERSION 1.0.0)
 
 set(CMAKE_CUDA_STANDARD 23)
