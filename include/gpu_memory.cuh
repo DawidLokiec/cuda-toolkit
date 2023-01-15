@@ -56,6 +56,10 @@ namespace CudaToolkit {
 				pMemory_;
 			}
 
+			__host__ operator T *() { // NOLINT(google-explicit-constructor)
+				pMemory_;
+			}
+
 		private:
 			__host__ static std::string getErrorDescription(const cudaError_t errorCode) {
 				switch (errorCode) {
