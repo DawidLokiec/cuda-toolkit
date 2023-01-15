@@ -37,11 +37,11 @@ namespace CudaToolkit {
 
 		public:
 			// clean code
-			[[maybe_unused]] static GpuMemory allocate(const size_t memorySizeInBytes) {
+			[[maybe_unused]] __host__ static GpuMemory allocate(const size_t memorySizeInBytes) {
 				return GpuMemory<T>(memorySizeInBytes);
 			}
 
-			__host__ ~GpuMemory() {
+			~GpuMemory() {
 				const cudaError_t status = cudaFree(pMemory_);
 				if (status) {
 					std::cerr << "cudaFree call failed with error code " << getErrorDescription(status) << std::endl;
@@ -68,7 +68,7 @@ namespace CudaToolkit {
 					case cudaErrorInvalidValue: // 1
 						return "'cudaErrorInvalidValue': One or more of the parameters passed to the API call is not "
 							   "within an acceptable range of values.";
-					case cudaErrorMemoryAllocation:    // 2
+					case cudaErrorMemoryAllocation: // 2
 						return "'cudaErrorMemoryAllocation': Unable to allocate enough memory to perform the requested "
 							   "operation.";
 					default:
