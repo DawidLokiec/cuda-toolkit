@@ -28,7 +28,7 @@ namespace CudaToolkit {
 			__host__ explicit GpuMemory(const size_t memorySizeInBytes) :
 					pMemory_(nullptr),
 					memorySizeInBytes_(memorySizeInBytes) {
-				const cudaError_t status = cudaMalloc(pMemory_, memorySizeInBytes);
+				const cudaError_t status = cudaMalloc(&pMemory_, memorySizeInBytes);
 				if (status) {
 					// let it crash
 					throw std::runtime_error("cudaMalloc call failed with error code " + getErrorDescription(status));
