@@ -32,7 +32,7 @@ namespace CudaToolkit {
 			GpuFacade(GpuFacade const &) = delete;
 
 			/**
-			 * The assigment operator.
+			 * The assignment operator.
 			 */
 			void operator=(GpuFacade const &) = delete;
 
@@ -45,7 +45,7 @@ namespace CudaToolkit {
 			 * Returns the singleton instance of this class.
 			 * @return the singleton instance of this class.
 			 */
-			[[maybe_unused]] static GpuFacade &getInstance();
+			[[maybe_unused]] __host__ static GpuFacade &getInstance();
 
 			/**
 			 * @brief Allocates memory on the GPU.
@@ -55,8 +55,9 @@ namespace CudaToolkit {
 			 */
 			template<typename T>
 			[[maybe_unused]] __host__ GpuMemory<T> allocateGpuMemory(const size_t memorySizeInBytes) {
+				auto tmp = GpuMemory<T>::allocate(memorySizeInBytes);
 				gpuUsedByCurrentProcess = true;
-				return GpuMemory<T>::allocate(memorySizeInBytes);
+				return tmp;
 			}
 
 			/**
@@ -73,8 +74,12 @@ namespace CudaToolkit {
 					const GpuMemory<T> &destinationGpuMemory,
 					size_t numBytesToCopy
 			) {
-				copyDataFromCpuMemoryToGpuMemory(sourceCpuMemory, destinationGpuMemory, numBytesToCopy);
-				gpuUsedByCurrentProcess = true;
+				copyDataBetweenCpuAndGpu(
+						destinationGpuMemory,
+						sourceCpuMemory,
+						numBytesToCopy,
+						cudaMemcpyHostToDevice
+				);
 			}
 
 			/**
@@ -91,9 +96,21 @@ namespace CudaToolkit {
 					void *destinationCpuMemory,
 					size_t numBytesToCopy
 			) {
-				copyDataFromGpuMemoryToCpuMemory(sourceGpuMemory, destinationCpuMemory, numBytesToCopy);
-				gpuUsedByCurrentProcess = true;
+				copyDataBetweenCpuAndGpu(
+						destinationCpuMemory,
+						sourceGpuMemory,
+						numBytesToCopy,
+						cudaMemcpyDeviceToHost
+				);
 			}
+
+		private:
+			__host__ void copyDataBetweenCpuAndGpu(
+					void *destinationGpuMemory,
+					const void *sourceCpuMemory,
+					size_t numBytesToCopy,
+					cudaMemcpyKind copyDirection
+			);
 	};
 
 	[[maybe_unused]] inline GpuFacade &gpuFacade = GpuFacade::getInstance();
