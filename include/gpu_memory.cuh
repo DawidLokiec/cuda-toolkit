@@ -53,11 +53,11 @@ namespace CudaToolkit {
 			}
 
 			__host__ operator void *() { // NOLINT(google-explicit-constructor)
-				pMemory_;
+				return pMemory_;
 			}
 
 			__host__ operator T *() { // NOLINT(google-explicit-constructor)
-				pMemory_;
+				return pMemory_;
 			}
 
 		private:
