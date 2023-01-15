@@ -18,5 +18,3 @@ GpuFacade::~GpuFacade() {
 	static GpuFacade instance;
 	return instance;
 }
-
-[[maybe_unused]] GpuFacade& gpuFacade = GpuFacade::getInstance();

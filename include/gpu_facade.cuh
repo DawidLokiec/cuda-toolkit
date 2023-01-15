@@ -96,7 +96,7 @@ namespace CudaToolkit {
 			}
 	};
 
-	[[maybe_unused]] extern GpuFacade &gpuFacade;
+	[[maybe_unused]] inline GpuFacade &gpuFacade = GpuFacade::getInstance();
 }
 
 #endif //CUDA_TOOLKIT_GPU_FACADE_CUH
