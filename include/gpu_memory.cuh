@@ -5,6 +5,9 @@
 #include <iostream>
 #include <string>
 
+/**
+ * The namespace of this toolkit.
+ */
 namespace CudaToolkit {
 
 	/**
@@ -36,8 +39,7 @@ namespace CudaToolkit {
 			}
 
 		public:
-			// clean code
-			[[maybe_unused]] __host__ static GpuMemory allocate(const size_t memorySizeInBytes) {
+			[[maybe_unused]] __host__ static GpuMemory allocate(const size_t memorySizeInBytes) { // clean code
 				return GpuMemory<T>(memorySizeInBytes);
 			}
 

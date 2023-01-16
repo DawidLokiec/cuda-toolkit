@@ -4,13 +4,13 @@
 #include "gpu_memory.cuh"
 
 /**
- * The namespace of this current toolkit.
+ * The namespace of this toolkit.
  */
 namespace CudaToolkit {
 
 	/**
- 	 * @brief Represents a facade to the CUDA-able GPU.
- 	 * @details After the program termination the used GPU is reset by this class automatically. Therefore the caller
+ 	 * @brief Represents a facade to the CUDA-able GPUs.
+ 	 * @details After the program termination the used GPUs are reset by this class automatically. Therefore the caller
  	 * no need to call cudaDeviceReset() explicitly.
  	 */
 	class GpuFacade {
@@ -18,7 +18,7 @@ namespace CudaToolkit {
 			/**
 			 * The boolean flag whether the GPU is being used by the current process.
 			 */
-			volatile bool gpuUsedByCurrentProcess;
+			volatile bool gpuUsedByCurrentProcess_;
 
 			/**
 			 * The default constructor. Creates a new instance of the current class.
@@ -55,9 +55,8 @@ namespace CudaToolkit {
 			 */
 			template<typename T>
 			[[maybe_unused]] __host__ GpuMemory<T> allocateGpuMemory(const size_t memorySizeInBytes) {
-				auto tmp = GpuMemory<T>::allocate(memorySizeInBytes);
-				gpuUsedByCurrentProcess = true;
-				return tmp;
+				gpuUsedByCurrentProcess_ = true;
+				return GpuMemory<T>::allocate(memorySizeInBytes);
 			}
 
 			/**
@@ -70,16 +69,20 @@ namespace CudaToolkit {
 			 */
 			template<typename T>
 			[[maybe_unused]] __host__ void copyDataFromCpuMemoryToGpuMemory(
-					const void *sourceCpuMemory,
+					const T *sourceCpuMemory,
 					const GpuMemory<T> &destinationGpuMemory,
 					size_t numBytesToCopy
 			) {
-				copyDataBetweenCpuAndGpu(
+				gpuUsedByCurrentProcess_ = true;
+				const cudaError_t status = cudaMemcpy(
 						destinationGpuMemory,
 						sourceCpuMemory,
 						numBytesToCopy,
 						cudaMemcpyHostToDevice
 				);
+				if (status) {
+					throw std::runtime_error("cudaMemcpy call failed with error code " + getErrorDescription(status));
+				}
 			}
 
 			/**
@@ -93,26 +96,28 @@ namespace CudaToolkit {
 			template<typename T>
 			[[maybe_unused]] __host__ void copyDataFromGpuMemoryToCpuMemory(
 					const GpuMemory<T> &sourceGpuMemory,
-					void *destinationCpuMemory,
+					T *destinationCpuMemory,
 					size_t numBytesToCopy
 			) {
-				copyDataBetweenCpuAndGpu(
+				gpuUsedByCurrentProcess_ = true;
+				const cudaError_t status = cudaMemcpy(
 						destinationCpuMemory,
 						sourceGpuMemory,
 						numBytesToCopy,
 						cudaMemcpyDeviceToHost
 				);
+				if (status) {
+					throw std::runtime_error("cudaMemcpy call failed with error code " + getErrorDescription(status));
+				}
 			}
 
 		private:
-			__host__ void copyDataBetweenCpuAndGpu(
-					void *destinationGpuMemory,
-					const void *sourceCpuMemory,
-					size_t numBytesToCopy,
-					cudaMemcpyKind copyDirection
-			);
+			static __host__ std::string getErrorDescription(cudaError_t errorCode);
 	};
 
+	/**
+	 * The global GPU facade object.
+	 */
 	[[maybe_unused]] inline GpuFacade &gpuFacade = GpuFacade::getInstance();
 }
 
