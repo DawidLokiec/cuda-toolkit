@@ -3,7 +3,7 @@ project(cuda-toolkit LANGUAGES CUDA VERSION 1.0.0)
 
 set(CMAKE_CUDA_STANDARD 23)
 
-add_library(${PROJECT_NAME} src/gpu_facade.cu)
+add_library(${PROJECT_NAME} src/gpu_facade.cu src/gpu_code_utilities.cu)
 
 target_include_directories(${PROJECT_NAME} PUBLIC include/)
 # A CMake pattern to have headers that are not seen by the consumers of this library.
