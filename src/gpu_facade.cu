@@ -9,8 +9,11 @@ GpuFacade::GpuFacade() : gpuUsedByCurrentProcess_(false) {
 GpuFacade::~GpuFacade() {
 	if (gpuUsedByCurrentProcess_) {
 		// Ensure the GPU is reset on program termination
-		cudaDeviceReset();
+		const cudaError_t status = cudaDeviceReset();
 		gpuUsedByCurrentProcess_ = false;
+		if (status) {
+			std::cerr << "cudaDeviceReset call failed with error code " << getErrorDescription(status) << std::endl;
+		}
 	}
 }
 
