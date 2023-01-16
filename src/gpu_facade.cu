@@ -19,7 +19,6 @@ GpuFacade::~GpuFacade() {
 	return instance;
 }
 
-
 std::string GpuFacade::getErrorDescription(const cudaError_t errorCode) {
 	switch (errorCode) {
 		case cudaErrorInvalidValue: // 1
@@ -29,10 +28,10 @@ std::string GpuFacade::getErrorDescription(const cudaError_t errorCode) {
 			return "'cudaErrorMemoryAllocation': "
 				   "The API call failed because it was unable to allocate enough memory to perform the requested operation.";
 		case cudaErrorInitializationError: // = 3
-			return "'cudaErrorInitializationError'. "
+			return "'cudaErrorInitializationError': "
 				   "The API call failed because the CUDA driver and runtime could not be initialized.";
 		case cudaErrorInvalidMemcpyDirection: // = 21
-			return "'cudaErrorInvalidMemcpyDirection.' "
+			return "'cudaErrorInvalidMemcpyDirection': "
 				   "This indicates that the direction of the memcpy passed to the API call is not one of the types specified by ::cudaMemcpyKind.";
 		case cudaErrorInsufficientDriver: // = 35
 			return "' cudaErrorInsufficientDriver': "
