@@ -9,8 +9,11 @@ GpuFacade::GpuFacade() : gpuUsedByCurrentProcess_(false) {
 GpuFacade::~GpuFacade() {
 	if (gpuUsedByCurrentProcess_) {
 		// Ensure the GPU is reset on program termination
-		cudaDeviceReset();
+		const cudaError_t status = cudaDeviceReset();
 		gpuUsedByCurrentProcess_ = false;
+		if (status) {
+			std::cerr << "cudaDeviceReset call failed with error code " << getErrorDescription(status) << std::endl;
+		}
 	}
 }
 
@@ -18,7 +21,6 @@ GpuFacade::~GpuFacade() {
 	static GpuFacade instance;
 	return instance;
 }
-
 
 std::string GpuFacade::getErrorDescription(const cudaError_t errorCode) {
 	switch (errorCode) {
@@ -29,10 +31,10 @@ std::string GpuFacade::getErrorDescription(const cudaError_t errorCode) {
 			return "'cudaErrorMemoryAllocation': "
 				   "The API call failed because it was unable to allocate enough memory to perform the requested operation.";
 		case cudaErrorInitializationError: // = 3
-			return "'cudaErrorInitializationError'. "
+			return "'cudaErrorInitializationError': "
 				   "The API call failed because the CUDA driver and runtime could not be initialized.";
 		case cudaErrorInvalidMemcpyDirection: // = 21
-			return "'cudaErrorInvalidMemcpyDirection.' "
+			return "'cudaErrorInvalidMemcpyDirection': "
 				   "This indicates that the direction of the memcpy passed to the API call is not one of the types specified by ::cudaMemcpyKind.";
 		case cudaErrorInsufficientDriver: // = 35
 			return "' cudaErrorInsufficientDriver': "
