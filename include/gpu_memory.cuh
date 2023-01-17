@@ -11,7 +11,7 @@
 namespace CudaToolkit {
 
 	/**
-	 * Represents memory space on the GPU.
+	 * @brief Represents memory space on the GPU.
 	 * @tparam T the data type of the data stored in the memory space.
 	 */
 	template<class T>
@@ -19,12 +19,12 @@ namespace CudaToolkit {
 
 		private:
 			/**
-			 * The pointer to the current GPU memory.
+			 * @brief The pointer to the current GPU memory.
 			 */
 			T *pMemory_;
 
 			/**
-			 * The size of the current GPU memory in bytes.
+			 * @brief The size of the current GPU memory in bytes.
 			 */
 			size_t memorySizeInBytes_;
 
@@ -54,27 +54,27 @@ namespace CudaToolkit {
 				return memorySizeInBytes_;
 			}
 
-			__host__ operator void *() { // NOLINT(google-explicit-constructor)
+			__host__ operator void *() const { // NOLINT(google-explicit-constructor)
 				return pMemory_;
 			}
 
-			__host__ operator T *() { // NOLINT(google-explicit-constructor)
+			__host__ operator T *() const { // NOLINT(google-explicit-constructor)
 				return pMemory_;
 			}
 
 		private:
 			__host__ static std::string getErrorDescription(const cudaError_t errorCode) {
 				switch (errorCode) {
-					case cudaSuccess: // 0
-						return "'errorCode': No errors occurred.";
-					case cudaErrorInvalidValue: // 1
+					case cudaSuccess: // = 0
+						return "'cudaSuccess': No errors occurred.";
+					case cudaErrorInvalidValue: // = 1
 						return "'cudaErrorInvalidValue': One or more of the parameters passed to the API call is not "
 							   "within an acceptable range of values.";
-					case cudaErrorMemoryAllocation: // 2
+					case cudaErrorMemoryAllocation: // = 2
 						return "'cudaErrorMemoryAllocation': Unable to allocate enough memory to perform the requested "
 							   "operation.";
 					default:
-						return "'" + std::to_string(errorCode) + "': Unknown error.";
+						return "'" + std::to_string(errorCode) + "': Unknown error code.";
 				}
 			}
 	};
