@@ -65,16 +65,16 @@ namespace CudaToolkit {
 		private:
 			__host__ static std::string getErrorDescription(const cudaError_t errorCode) {
 				switch (errorCode) {
-					case cudaSuccess: // 0
-						return "'errorCode': No errors occurred.";
-					case cudaErrorInvalidValue: // 1
+					case cudaSuccess: // = 0
+						return "'cudaSuccess': No errors occurred.";
+					case cudaErrorInvalidValue: // = 1
 						return "'cudaErrorInvalidValue': One or more of the parameters passed to the API call is not "
 							   "within an acceptable range of values.";
-					case cudaErrorMemoryAllocation: // 2
+					case cudaErrorMemoryAllocation: // = 2
 						return "'cudaErrorMemoryAllocation': Unable to allocate enough memory to perform the requested "
 							   "operation.";
 					default:
-						return "'" + std::to_string(errorCode) + "': Unknown error.";
+						return "'" + std::to_string(errorCode) + "': Unknown error code.";
 				}
 			}
 	};
