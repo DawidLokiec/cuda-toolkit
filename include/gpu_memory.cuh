@@ -11,7 +11,7 @@
 namespace CudaToolkit {
 
 	/**
-	 * Represents memory space on the GPU.
+	 * @brief Represents memory space on the GPU.
 	 * @tparam T the data type of the data stored in the memory space.
 	 */
 	template<class T>
@@ -19,12 +19,12 @@ namespace CudaToolkit {
 
 		private:
 			/**
-			 * The pointer to the current GPU memory.
+			 * @brief The pointer to the current GPU memory.
 			 */
 			T *pMemory_;
 
 			/**
-			 * The size of the current GPU memory in bytes.
+			 * @brief The size of the current GPU memory in bytes.
 			 */
 			size_t memorySizeInBytes_;
 
@@ -54,11 +54,11 @@ namespace CudaToolkit {
 				return memorySizeInBytes_;
 			}
 
-			__host__ operator void *() { // NOLINT(google-explicit-constructor)
+			__host__ operator void *() const { // NOLINT(google-explicit-constructor)
 				return pMemory_;
 			}
 
-			__host__ operator T *() { // NOLINT(google-explicit-constructor)
+			__host__ operator T *() const { // NOLINT(google-explicit-constructor)
 				return pMemory_;
 			}
 
