@@ -70,7 +70,7 @@ namespace CudaToolkit {
 			template<typename T>
 			[[maybe_unused]] __host__ void copyDataFromCpuMemoryToGpuMemory(
 					const T *sourceCpuMemory,
-					const GpuMemory<T> &destinationGpuMemory,
+					GpuMemory<T> &destinationGpuMemory,
 					size_t numBytesToCopy
 			) {
 				gpuUsedByCurrentProcess_ = true;
@@ -95,7 +95,7 @@ namespace CudaToolkit {
 			  */
 			template<typename T>
 			[[maybe_unused]] __host__ void copyDataFromGpuMemoryToCpuMemory(
-					const GpuMemory<T> &sourceGpuMemory,
+					GpuMemory<T> &sourceGpuMemory,
 					T *destinationCpuMemory,
 					size_t numBytesToCopy
 			) {
