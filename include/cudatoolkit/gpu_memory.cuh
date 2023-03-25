@@ -6,7 +6,7 @@
 #include <string>
 
 /**
- * The namespace of this toolkit.
+ * @brief The namespace of this toolkit.
  */
 namespace CudaToolkit {
 

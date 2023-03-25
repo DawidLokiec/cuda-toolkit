@@ -4,7 +4,7 @@
 #include "gpu_memory.cuh"
 
 /**
- * The namespace of this toolkit.
+ * @brief The namespace of this toolkit.
  */
 namespace CudaToolkit {
 
@@ -27,12 +27,12 @@ namespace CudaToolkit {
 
 		public:
 			/**
-			 * The copy constructor.
+			 * @brief The copy constructor.
 			 */
 			GpuFacade(GpuFacade const &) = delete;
 
 			/**
-			 * The assignment operator.
+			 * @brief The assignment operator.
 			 */
 			void operator=(GpuFacade const &) = delete;
 
@@ -42,7 +42,7 @@ namespace CudaToolkit {
 			~GpuFacade();
 
 			/**
-			 * Returns the singleton instance of this class.
+			 * @brief Returns the singleton instance of this class.
 			 * @return the singleton instance of this class.
 			 */
 			[[maybe_unused]] __host__ static GpuFacade &getInstance();
