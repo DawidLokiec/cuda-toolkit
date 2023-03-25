@@ -2,7 +2,7 @@
 #define CUDA_TOOLKIT_GPU_CODE_UTILITIES_CUH
 
 /**
- * The namespace of this library.
+ * @brief The namespace of this toolkit.
  */
 namespace CudaToolkit::GpuCodeUtilities {
 
