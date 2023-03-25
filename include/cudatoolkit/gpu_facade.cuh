@@ -28,7 +28,7 @@ namespace CudaToolkit {
 		public:
 			/**
 			 * The copy constructor.
-			  */
+			 */
 			GpuFacade(GpuFacade const &) = delete;
 
 			/**

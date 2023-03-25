@@ -1,4 +1,4 @@
-#include "gpu_facade.cuh"
+#include "cudatoolkit/gpu_facade.cuh"
 
 using namespace CudaToolkit;
 

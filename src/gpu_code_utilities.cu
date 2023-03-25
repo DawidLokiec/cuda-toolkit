@@ -1,4 +1,4 @@
-#include "gpu_code_utilities.cuh"
+#include "cudatoolkit/gpu_code_utilities.cuh"
 
 using namespace CudaToolkit;
 
